@@ -818,6 +818,19 @@
   .ab-logo.ab-asys { height: 34px !important; }
   @media (max-width: 760px) { .ab-logo { height: 28px !important; } .ab-logo.ab-asys { height: 25px !important; } }
 
+  /* ── Acelerador ── */
+  .acel-section { margin: 4px 0 24px; background: var(--blanco); border-radius: 16px; padding: 22px 24px; box-shadow: var(--sombra); border-top: 4px solid var(--dorado); }
+  .acel-head { margin-bottom: 16px; }
+  .acel-title { font-family:'Montserrat',sans-serif; font-weight:900; font-size:20px; color:var(--azul); }
+  .acel-sub { font-size:13px; color:var(--gris-texto); margin-top:3px; }
+  .acel-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start; }
+  .acel-img { width:100%; height:auto; border-radius:12px; cursor:zoom-in; box-shadow:0 2px 10px rgba(0,0,0,0.12); transition:transform .2s, box-shadow .2s; display:block; background:#f4f6fa; }
+  .acel-img:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,56,168,0.22); }
+  @media (max-width:700px){ .acel-grid { grid-template-columns:1fr; } }
+  .acel-lightbox { display:none; position:fixed; inset:0; z-index:3000; background:rgba(5,12,30,0.9); align-items:center; justify-content:center; padding:24px; cursor:zoom-out; }
+  .acel-lightbox.open { display:flex; }
+  .acel-lightbox img { max-width:96vw; max-height:92vh; border-radius:10px; box-shadow:0 10px 40px rgba(0,0,0,0.55); }
+  .acel-lightbox .acel-close { position:absolute; top:16px; right:24px; color:#fff; font-size:36px; font-weight:700; cursor:pointer; line-height:1; }
 </style>
 </head>
 <body>
@@ -868,6 +881,17 @@
 <div class="p-icon">🧮</div>
 <h3 style="color:var(--dorado-dark);">Control de Incentivos</h3>
 <p>Calculadora de comisiones e incentivos por ventas efectivas — se abre en una pestaña nueva</p>
+</div>
+</div>
+<div class="acel-section">
+<div class="acel-head">
+<div class="acel-title">🚀 Acelerador</div>
+<div class="acel-sub">Planes e incentivos vigentes — toca una imagen para ampliarla</div>
+</div>
+<div class="acel-grid">
+<img class="acel-img" src="acelerador/incentivo-semanal.webp" alt="Incentivo Semanal" onclick="openAcel(this)" loading="lazy"/>
+<img class="acel-img" src="acelerador/aguinaldo-asesores.jpg" alt="Le sumamos a tu aguinaldo — asesores de experiencia" onclick="openAcel(this)" loading="lazy"/>
+<img class="acel-img" src="acelerador/aguinaldo-ejecutivos.jpg" alt="Le sumamos a tu aguinaldo — ejecutivos de negocio" onclick="openAcel(this)" loading="lazy"/>
 </div>
 </div>
 <div class="home-contact">
@@ -2108,6 +2132,7 @@
 </div>
 <button class="inc-trigger" onclick="openZona()">🧰 Zona Asesor</button></div>
 <!-- ══════════ MODAL: MODELO DE INCENTIVOS ══════════ -->
+<div class="acel-lightbox" id="acelLightbox" onclick="closeAcel()"><span class="acel-close" aria-label="Cerrar">×</span><img id="acelLightboxImg" src="" alt=""/></div>
 <div class="inc-overlay adv-overlay" id="incOverlay" onclick="if(event.target===this)closeIncentivos()">
 <div class="inc-modal adv-modal"><div class="adv-head"><div><div class="adv-head-title">Zona Asesor</div><div class="adv-head-sub" id="advHeadSub">Herramientas de venta del producto seleccionado</div></div><button aria-label="Cerrar" class="adv-close" onclick="closeIncentivos()">×</button></div><div class="adv-bar"><button class="adv-btn" data-adv="por-que" onclick="showAdv('por-que',this)">💡 ¿Por qué promoverlo?</button><button class="adv-btn" data-adv="perfiles" onclick="showAdv('perfiles',this)">👥 Perfiles de Cliente</button><button class="adv-btn" data-adv="momentos" onclick="showAdv('momentos',this)">⏱️ Momentos Clave</button><button class="adv-btn" data-adv="guion" onclick="showAdv('guion',this)">🗣️ Guión de Venta</button><button class="adv-btn" data-adv="objeciones" onclick="showAdv('objeciones',this)">💬 Manejo de Objeciones</button><button class="adv-btn" data-adv="tips" onclick="showAdv('tips',this)">🎯 Tips de Venta</button><button class="adv-btn" data-adv="exclusiones" onclick="showAdv('exclusiones',this)">🚫 Exclusiones</button><button class="adv-btn" data-adv="incentivo" onclick="showAdv('incentivo',this)">🎁 Incentivo</button></div><div class="adv-host" id="advHost"></div><div id="advIncentivo" style="display:none;"><div class="inc-body">
 <!-- 1. Tarjeta destacada: Gift Card Walmart -->
@@ -2277,7 +2302,9 @@ function toggleCurrency(currency) {
   var c = document.getElementById('plan-' + currency); if (c) c.classList.add('active');
 }
 
-document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeIncentivos(); });
+function openAcel(img){ var ov=document.getElementById('acelLightbox'); var im=document.getElementById('acelLightboxImg'); if(im&&ov){ im.src=img.src; im.alt=img.alt||''; ov.classList.add('open'); } }
+function closeAcel(){ var ov=document.getElementById('acelLightbox'); if(ov) ov.classList.remove('open'); }
+document.addEventListener('keydown', function(e){ if (e.key === 'Escape') { closeIncentivos(); closeAcel(); } });
 function openControlIncentivos(){ window.open('control-incentivos.html','_blank'); }
 document.addEventListener('DOMContentLoaded', function(){ showSection('inicio'); });
 </script>
